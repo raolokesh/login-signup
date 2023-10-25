@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,7 +20,7 @@ import android.widget.ListView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.lokesh.loginsignup.R;
 import com.lokesh.loginsignup.adapter.listViewAdapter;
-import com.lokesh.loginsignup.database.dataBaseHelper;
+import com.lokesh.loginsignup.database.DataBaseHelper;
 import com.lokesh.loginsignup.database.userEntity;
 import com.lokesh.loginsignup.self_define.hashCode;
 import com.lokesh.loginsignup.signup_layout;
@@ -43,6 +42,7 @@ public class mainpage_layout extends AppCompatActivity {
     ListView listview;
 
     List<userEntity>  data =new  ArrayList<userEntity>();
+    final  DataBaseHelper databaseHelper = new DataBaseHelper(mainpage_layout.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +57,10 @@ public class mainpage_layout extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
 
-        dataBaseHelper databaseHelper = dataBaseHelper.getDB(this);
 
 
-        data = databaseHelper.userEntityDao().getAllItem();
+
+        data = databaseHelper.getAllUser();
 
         listViewAdapter listviewAdapter = new listViewAdapter(this,data);
 
@@ -86,11 +86,11 @@ public class mainpage_layout extends AppCompatActivity {
                 txt_edit_username = dialog.findViewById(R.id.txt_edit_username);
 
 
-                txt_edit_first_name.setText(data.get(i).getFirstName());
-                txt_edit_last_name.setText(data.get(i).getLastName());
+                txt_edit_first_name.setText(data.get(i).getFirst_name());
+                txt_edit_last_name.setText(data.get(i).getLast_name());
                 txt_edit_username.setText(data.get(i).getUsername());
                 txt_edit_email.setText(data.get(i).getEmail());
-                txt_edit_phone_no.setText(data.get(i).getPhone_NO());
+                txt_edit_phone_no.setText(data.get(i).getPhone_no());
 
 
                 btn_edit_detail.setOnClickListener(new View.OnClickListener() {
@@ -101,12 +101,12 @@ public class mainpage_layout extends AppCompatActivity {
 
                         if(isEmailValidate(txt_edit_email.getText().toString().trim()) && isFirstNameValidate(txt_edit_first_name.getText().toString().trim()) &&
                         isLastNameValidate(txt_edit_last_name.getText().toString().trim()) && isPhoneNoValidate(txt_edit_phone_no.getText().toString().trim())){
-                            data.get(i).setFirstName(txt_edit_first_name.getText().toString().trim());
-                            data.get(i).setLastName(txt_edit_last_name.getText().toString().trim());
+                            data.get(i).setFirst_name(txt_edit_first_name.getText().toString().trim());
+                            data.get(i).setLast_name(txt_edit_last_name.getText().toString().trim());
                             data.get(i).setEmail(txt_edit_email.getText().toString().trim());
-                            data.get(i).setPhone_NO(txt_edit_phone_no.getText().toString().trim());
+                            data.get(i).setPhone_no(txt_edit_phone_no.getText().toString().trim());
 
-                            databaseHelper.userEntityDao().update(data.get(i));
+                            databaseHelper.updateUser(data.get(i));
                             listviewAdapter.notifyDataSetChanged();
                             dialog.dismiss();
                         }
@@ -157,7 +157,7 @@ public class mainpage_layout extends AppCompatActivity {
         } else if (itemid == R.id.reset_password) {
             Intent get_data_intent = getIntent();
             String username = get_data_intent.getStringExtra("username");
-            dialog_reset_password(dataBaseHelper.getDB(this),username);
+            dialog_reset_password(databaseHelper,username);
 
 
         }
@@ -219,7 +219,7 @@ public class mainpage_layout extends AppCompatActivity {
     }
 
 
-    private void dialog_reset_password(dataBaseHelper databaseHelper,String username){
+    private void dialog_reset_password(DataBaseHelper databaseHelper,String username){
 
         Dialog dialog = new Dialog(mainpage_layout.this);
         dialog.setContentView(R.layout.reset_password_layout);
@@ -236,7 +236,7 @@ public class mainpage_layout extends AppCompatActivity {
 
         btn_reset_password.setOnClickListener(view -> {
             if(ispasswordmatch(txt_reset_password.getText().toString().trim(),txt_match_password.getText().toString().trim())){
-                databaseHelper.userEntityDao().resetPassword(username,new hashCode().getHashCode(txt_reset_password.getText().toString().trim()));
+                databaseHelper.updateUserPassword(username,new hashCode().getHashCode(txt_reset_password.getText().toString().trim()));
                 dialog.dismiss();
             }
 

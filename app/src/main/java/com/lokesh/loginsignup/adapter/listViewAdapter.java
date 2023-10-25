@@ -44,9 +44,9 @@ public class listViewAdapter extends ArrayAdapter<userEntity> {
         userEntity dataItem = getItem(position);
 
         if (dataItem != null) {
-            txt_name.setText(dataItem.getFirstName() + " " + dataItem.getLastName());
+            txt_name.setText(dataItem.getFirst_name() + " " + dataItem.getLast_name());
             txt_email.setText("Email:- "+ dataItem.getEmail());
-            txt_phone_no.setText("Contact:- "+dataItem.getPhone_NO());
+            txt_phone_no.setText("Contact:- "+dataItem.getPhone_no());
         }
 
         return convertView;

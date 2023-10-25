@@ -1,94 +1,55 @@
 package com.lokesh.loginsignup.database;
 
-
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-
-import org.jetbrains.annotations.NotNull;
-
-
-
-@Entity(tableName = "userdetail")
 public class userEntity {
-    @ColumnInfo(name = "First Name")
-    String FirstName;
-    @ColumnInfo(name = "Last Name")
-    String LastName;
-    @ColumnInfo(name = "Email")
-    String Email;
-    @ColumnInfo(name = "Phone No")
-    String Phone_NO;
-    @ColumnInfo(name = "Username")
-    @PrimaryKey() @NotNull
-    String Username;
-    @ColumnInfo(name = "Password")
-    String Password;
 
-    public userEntity() {
+    String first_name,last_name,email,phone_no,username,password;
+
+    public userEntity(String first_name, String last_name, String email, String phone_no, String username, String password) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.phone_no = phone_no;
+        this.username = username;
+        this.password = password;
     }
 
-    public userEntity(@NotNull String username, String password) {
-        Username = username;
-        Password = password;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public userEntity(String firstName, String lastName, String email, String phone_NO, String username, String password) {
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Email = email;
-        this.Phone_NO = phone_NO;
-        this.Username = username;
-        this.Password = password;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getFirstName() {
-        return FirstName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setFirstName(String firstName) {
-        FirstName = firstName;
-    }
-
-    public String getLastName() {
-        return LastName;
-    }
-
-    public void setLastName(String lastName) {
-        LastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
-    public String getPhone_NO() {
-        return Phone_NO;
+    public String getPhone_no() {
+        return phone_no;
     }
 
-    public void setPhone_NO(String phone_NO) {
-        Phone_NO = phone_NO;
+    public void setPhone_no(String phone_no) {
+        this.phone_no = phone_no;
     }
 
     public String getUsername() {
-        return Username;
+        return username;
     }
 
     public void setUsername(String username) {
-        Username = username;
+        this.username = username;
     }
-
-    public String  getPassword() {
-        return Password;
-    }
-
-    public void setPassword(String password) {
-        Password = password;
-    }
-
 }

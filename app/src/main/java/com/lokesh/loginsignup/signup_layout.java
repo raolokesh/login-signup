@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.lokesh.loginsignup.afterlogin.mainpage_layout;
-import com.lokesh.loginsignup.database.dataBaseHelper;
-import com.lokesh.loginsignup.database.userEntity;
+import com.lokesh.loginsignup.database.DataBaseHelper;
 import com.lokesh.loginsignup.self_define.hashCode;
 
 
@@ -23,6 +22,7 @@ public class signup_layout extends AppCompatActivity {
     TextInputEditText txt_first_name,txt_last_name,txt_phone_no,txt_email,txt_username,txt_password;
     Button btn_sign_up;
     TextView txt_login;
+
 
 
     @Override
@@ -39,25 +39,9 @@ public class signup_layout extends AppCompatActivity {
         btn_sign_up = findViewById(R.id.btn_sign_up);
         txt_login = findViewById(R.id.txt_login);
 
-        dataBaseHelper databaseHelper = dataBaseHelper.getDB(this);
+        final DataBaseHelper databaseHelper = new DataBaseHelper(getApplicationContext() );
 
-//
-//        private boolean isLastNameValid(;){
-//            String lastName = txt_last_name.getText().toString().trim();
-//            return !lastName.isEmpty();
-//        }
-//
-//        private boolean isEmailValid() {
-//            String email = txt_email.getText().toString().trim();
-//            return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-//        }
-//
-//        private boolean isPasswordValid() {
-//            String password = txt_password.getText().toString();
-//            // Implement your password strength criteria here
-//            // For example, check for minimum length, special characters, etc.
-//            return password.length() >= 8; // Example: Minimum length of 8 characters
-//        }
+
 
         btn_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,9 +57,9 @@ public class signup_layout extends AppCompatActivity {
 
                     
 
-                    if (!databaseHelper.userEntityDao().checkUsername(username)) {
-                        databaseHelper.userEntityDao().
-                                insert(new userEntity(first_name, last_name, email, phone_no, username, new hashCode().getHashCode(password)));
+                    if (!databaseHelper.checkUsername(username)) {
+                        databaseHelper
+                                .insertUser(first_name, last_name, email, phone_no, username, new hashCode().getHashCode(password));
 
                         Intent iSignupNext = new Intent(signup_layout.this, mainpage_layout.class);
                         iSignupNext.putExtra("username",username);

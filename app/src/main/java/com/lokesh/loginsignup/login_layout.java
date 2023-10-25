@@ -1,6 +1,7 @@
 package com.lokesh.loginsignup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Database;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.lokesh.loginsignup.afterlogin.mainpage_layout;
-import com.lokesh.loginsignup.database.dataBaseHelper;
+import com.lokesh.loginsignup.database.DataBaseHelper;
 import com.lokesh.loginsignup.self_define.hashCode;
 
 public class login_layout extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class login_layout extends AppCompatActivity {
         txt_signup = findViewById(R.id.txt_signup);
 
 
-        dataBaseHelper databaseHelper = dataBaseHelper.getDB(this);
+        final DataBaseHelper databaseHelper = new DataBaseHelper(login_layout.this);
 
 
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +41,7 @@ public class login_layout extends AppCompatActivity {
                 String password = input_password.getText().toString().trim();
 
 
-                if(databaseHelper.userEntityDao().checkUsernamePassword(username, new hashCode().getHashCode(password))>0){
+                if(databaseHelper.checkUsernamePassword(username, new hashCode().getHashCode(password))>0){
                     Intent iLogin = new Intent( login_layout.this, mainpage_layout.class);
                     iLogin.putExtra("username",username);
                     startActivity(iLogin);
