@@ -12,4 +12,10 @@
         android:title="Reset Password"
         />
 
+    <item android:id="@+id/notes"
+        android:icon="@drawable/baseline_notes_24"
+        android:title="Notes"
+        />
+
+
 </menu>
