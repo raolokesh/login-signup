@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.amitshekhar.utils.DatabaseHelper;
 import com.google.android.material.textfield.TextInputEditText;
 import com.lokesh.loginsignup.afterlogin.mainpage_layout;
 import com.lokesh.loginsignup.database.DataBaseHelper;
+import com.lokesh.loginsignup.database.userHelper;
 import com.lokesh.loginsignup.self_define.hashCode;
 
+import java.sql.SQLException;
 
 
 public class signup_layout extends AppCompatActivity {
@@ -24,7 +27,7 @@ public class signup_layout extends AppCompatActivity {
     Button btn_sign_up;
     TextView txt_login;
 
-    final DataBaseHelper databaseHelper = new DataBaseHelper(signup_layout.this );
+    userHelper userhelper;
 
 
     @Override
@@ -42,7 +45,7 @@ public class signup_layout extends AppCompatActivity {
         txt_login = findViewById(R.id.txt_login);
 
 
-
+        userhelper = new userHelper(signup_layout.this );
 
 
         btn_sign_up.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +62,8 @@ public class signup_layout extends AppCompatActivity {
 
                     
 
-                    if (!databaseHelper.checkUsername(username)) {
-                        databaseHelper
+                    if (!userhelper.checkUsername(username)) {
+                        userhelper
                                 .insertUser(first_name, last_name, email, phone_no, username, new hashCode().getHashCode(password));
 
                         Intent iSignupNext = new Intent(signup_layout.this, mainpage_layout.class);

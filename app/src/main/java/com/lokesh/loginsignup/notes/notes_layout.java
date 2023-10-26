@@ -45,10 +45,10 @@ public class notes_layout extends AppCompatActivity {
 
         Intent intentData = getIntent();
         String username = intentData.getStringExtra("username");
-//        noteshelper.insertnotes("hello we are going ","we are going to add temperature data to this ",date.toString(),"lokesh@gmail.com" );
-//        noteshelper.insertnotes("hello we ar23e going234 ","we are going to ad132 23dsfcbd temperature data to this ",date.toString(),"lokesh@gmail.com" );
-//        noteshelper.insertnotes("hello we a324re going 234","we are gocvxnbxcing to add temperature data to this ",date.toString(),"lokesh@gmail.com" );
-//        noteshelper.insertnotes("hello we 32are going32 ","we are goinzbbzbg to add temperature data to this ",date.toString(),"lokesh@gmail.com" );
+        noteshelper.insertnotes("hello we are going ","we are going to add temperature data to this ",date.toString(),"lokesh@gmail.com" );
+        noteshelper.insertnotes("hello we ar23e going234 ","we are going to ad132 23dsfcbd temperature data to this ",date.toString(),"lokesh@gmail.com" );
+        noteshelper.insertnotes("hello we a324re going 234","we are gocvxnbxcing to add temperature data to this ",date.toString(),"lokesh@gmail.com" );
+        noteshelper.insertnotes("hello we 32are going32 ","we are goinzbbzbg to add temperature data to this ",date.toString(),"lokesh@gmail.com" );
 
         data = noteshelper.getnotes(username);
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.lokesh.loginsignup.afterlogin.mainpage_layout;
-import com.lokesh.loginsignup.database.DataBaseHelper;
+import com.lokesh.loginsignup.database.userHelper;
 import com.lokesh.loginsignup.self_define.hashCode;
 
 public class login_layout extends AppCompatActivity {
@@ -19,6 +19,7 @@ public class login_layout extends AppCompatActivity {
     TextInputEditText input_username,input_password;
     Button btn_login;
     TextView txt_signup;
+    userHelper userhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,8 @@ public class login_layout extends AppCompatActivity {
         btn_login = findViewById(R.id.btn_login);
         txt_signup = findViewById(R.id.txt_signup);
 
+        userhelper = new userHelper(login_layout.this);
 
-        final DataBaseHelper databaseHelper = new DataBaseHelper(login_layout.this);
 
 
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -40,10 +41,8 @@ public class login_layout extends AppCompatActivity {
                 String username = input_username.getText().toString().trim();
                 String password = input_password.getText().toString().trim();
 
-                boolean value = databaseHelper.checkUsernamePassword(username, new hashCode().getHashCode(password));
-                Log.d("checkusername and password","value is "+ value);
 
-                if(databaseHelper.checkUsernamePassword(username, new hashCode().getHashCode(password))){
+                if(userhelper.checkUsernamePassword(username, new hashCode().getHashCode(password))){
                     Intent iLogin;
                     iLogin = new Intent( login_layout.this, mainpage_layout.class);
                     iLogin.putExtra("username",username);

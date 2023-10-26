@@ -4,47 +4,60 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
 
+import android.database.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class notesHelper extends SQLiteOpenHelper {
+public class notesHelper  {
 
     private static final  String DATABASE_NAME= "Appdatabase";
-    private static final  int DATABASE_VERSION = 2;
+    private static final  int DATABASE_VERSION = 1;
     private static final String TableName2 = "notesdetail";
 
 
-    public notesHelper(@Nullable Context context) {
-        super(context,DATABASE_NAME,null, DATABASE_VERSION);
+    private DataBaseHelper dbHelper;
+
+    private SQLiteDatabase db;
+
+
+
+
+    public notesHelper(Context context) {
+         dbHelper = new DataBaseHelper(context);
+        db = dbHelper.getWritableDatabase();
+    }
+    public void close() {
+        dbHelper.close();
     }
 
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TableName2+" (\n" +
-                "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
-                "    Title TEXT,\n" +
-                "    Description TEXT,\n" +
-                "    Date TEXT,\n" +
-                "    userId TEXT,\n" +
-                "    FOREIGN KEY (userId) REFERENCES userdetail(Username) ON DELETE CASCADE\n" +
-                ")");
+//    @Override
+//    public void onCreate(SQLiteDatabase db) {
+////        db.execSQL("CREATE TABLE IF NOT EXISTS "+TableName2+" (\n" +
+////                "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
+////                "    Title TEXT,\n" +
+////                "    Description TEXT,\n" +
+////                "    Date TEXT,\n" +
+////                "    userId TEXT,\n" +
+////                "    FOREIGN KEY (userId) REFERENCES userdetail(Username) ON DELETE CASCADE\n" +
+////                ")");
+//
+//
+//    }
 
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
-    }
+//    @Override
+//    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+//
+//        db.execSQL("DROP TABLE IF EXISTS "+TableName2);
+//        onCreate(db);
+//
+//    }
 
 
     public void insertnotes(String Title, String Description, String Date,String userId  ){
-        SQLiteDatabase db = this.getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put("Title",Title);
         values.put("Description",Description);
@@ -54,7 +67,6 @@ public class notesHelper extends SQLiteOpenHelper {
     }
 
     public void updatenotes(notesEntity entity){
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id",entity.getId());
         values.put("Title",entity.getTitle());
@@ -66,7 +78,7 @@ public class notesHelper extends SQLiteOpenHelper {
     }
 
     public List<notesEntity> getnotes(String userId) {
-        SQLiteDatabase db = this.getReadableDatabase();
+
         List<notesEntity> list =  new ArrayList<notesEntity>();
         String query = "SELECT * FROM "+TableName2+" WHERE userId =?";
         Cursor cursor = db.rawQuery(query,new String[]{userId});
